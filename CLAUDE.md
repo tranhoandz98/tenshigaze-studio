@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Ngôn ngữ phản hồi
+
+Luôn trả lời người dùng bằng tiếng Việt trong dự án này, trừ khi người dùng yêu cầu rõ ràng một ngôn ngữ khác. Giữ nguyên tên tệp, mã nguồn, lệnh và thuật ngữ kỹ thuật khi cần.
+
 ## 1. Tổng quan Dự án
 
 **Tenshigaze Studio** là hệ thống quản lý vận hành studio ảnh, bao gồm 4 phân hệ cốt lõi:
