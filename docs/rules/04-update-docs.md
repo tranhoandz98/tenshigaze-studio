@@ -92,4 +92,4 @@ Spec mới nên dùng template `docs/specs/_template.md`.
 - Docs change phải có chứng cứ từ code/diff/commit hoặc ghi rõ cần verify.
 - AI chỉ đề xuất; TechLead review/merge.
 - Không thay docs bằng suy đoán.
-- Không để docs mâu thuẫn `AGENTS.md` và feature plan/report.
+- Không để docs mâu thuẫn `CLAUDE.md` và feature plan/report.

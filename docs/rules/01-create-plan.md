@@ -9,17 +9,17 @@
 
 ## 1. Where project-specific facts come from
 
-This rule holds **no project facts**. If the project names a document differently, resolve the real name through the **source-of-truth map in `AGENTS.md`**.
+This rule holds **no project facts**. If the project names a document differently, resolve the real name through the **source-of-truth map in `CLAUDE.md`**.
 
 | Document | What this rule takes from it | If missing |
 |---|---|---|
-| `<project-root>/AGENTS.md` | Service registry (service-key → repo path), tech stack, per-service read order and verification commands, code conventions, i18n requirement, branch rules, do-not-touch list, source-of-truth map | **STOP** — no service names, no commands |
+| `<project-root>/CLAUDE.md` | Service registry (service-key → repo path), tech stack, per-service read order and verification commands, code conventions, i18n requirement, branch rules, do-not-touch list, source-of-truth map | **STOP** — no service names, no commands |
 | `docs/README.md` | Workflow, roles, gates, feature folder model | Fall back to this rule's defaults |
 | `docs/ARCHITECTURE.md` | Services, integration surfaces (REST/RPC/messaging/auth/storage), environments, known blast radii | **STOP** — impact analysis impossible |
 | `docs/specs/<domain>.md` | Business logic of record: entities, endpoints, contracts, states, permissions | **STOP** for the domains touched |
 | `docs/DESIGN.md` | UI system, layout contract, component library, styling rules | Required for UI features |
 | `docs/database/` | Current schema state of truth + migration file convention | Required for data features |
-| `docs/conventions/<service>.md` | Per-service conventions beyond `AGENTS.md` | Optional |
+| `docs/conventions/<service>.md` | Per-service conventions beyond `CLAUDE.md` | Optional |
 | `docs/rules/*.md` | Companion rules: testcase, DB migration, impact, docs update, impact tool | Per trigger |
 
 **Reading rules:** never assume a fact these documents do not state — ask, and record the answer as an open question. Never copy a project fact into this rule; porting to a new project means writing that project's documents.
@@ -37,7 +37,7 @@ STOP and ask the user if any of these is true:
 3. The feature already has a `plan.md` with `status: approved` or later and the user did not explicitly ask to redo it. **Never overwrite an approved plan.**
 4. The docs repo or a service repo is behind its remote (Step 1) — report it; **do not pull.**
 5. The base docs contradict the real source code and there is no basis to decide which is right.
-6. The target service cannot be resolved unambiguously from the `AGENTS.md` registry (Step 3).
+6. The target service cannot be resolved unambiguously from the `CLAUDE.md` registry (Step 3).
 
 ---
 
@@ -72,7 +72,7 @@ Every task carrying one is marked **`(*)`** in `tasks.md`, is described in `plan
 
 ### 4.2 Documentation impact
 
-Walk the `AGENTS.md` source-of-truth map in reverse: for each change the feature makes, name the document that stops being true.
+Walk the `CLAUDE.md` source-of-truth map in reverse: for each change the feature makes, name the document that stops being true.
 
 | Change | Document |
 |---|---|
@@ -82,9 +82,9 @@ Walk the `AGENTS.md` source-of-truth map in reverse: for each change the feature
 | UI pattern, layout, component, theme | `docs/DESIGN.md` |
 | Schema, entity, data | `docs/database/` |
 | Service-specific coding convention | `docs/conventions/<service>.md` |
-| Environment deployment steps | Service-local deployment doc named in `AGENTS.md` |
-| A new error and its resolution | Service-local troubleshooting doc named in `AGENTS.md` |
-| Project rule or workflow | `AGENTS.md` / `docs/rules/` |
+| Environment deployment steps | Service-local deployment doc named in `CLAUDE.md` |
+| A new error and its resolution | Service-local troubleshooting doc named in `CLAUDE.md` |
+| Project rule or workflow | `CLAUDE.md` / `docs/rules/` |
 
 Each document identified becomes a **row in `plan.md` §17 and a task in `tasks.md`**. A documentation update that exists only as a sentence in the plan does not get done.
 
@@ -115,7 +115,7 @@ Then read, extracting what §1 says each document provides:
 
 1. `expect.md` in full — what to build, what is explicitly **out of scope**, the acceptance criteria.
 2. Anything in `extract/`.
-3. `AGENTS.md` — noting concretely: the registry row of each candidate service, its read order, its verification command, its constraints, the branch rule, the do-not-touch list, whether the project is multi-language.
+3. `CLAUDE.md` — noting concretely: the registry row of each candidate service, its read order, its verification command, its constraints, the branch rule, the do-not-touch list, whether the project is multi-language.
 4. `docs/README.md` — the gates and feature folder model in force.
 5. `ARCHITECTURE.md` — integration surfaces, environments, blast radii.
 6. `specs/<domain>.md` for every domain touched.
@@ -143,7 +143,7 @@ Unavoidable small assumptions go into §15, one line each, for the reviewer to c
 ### Step 3 — Resolve the target service
 
 1. The target service comes from: the user's explicit statement → `plan.md` front matter (when revising) → the `Service` column in `tasks.md`.
-2. Map it to a repo path through the **service registry in `AGENTS.md`**, using the canonical `service-key` — never the git repo name, never a folder name guessed by similarity.
+2. Map it to a repo path through the **service registry in `CLAUDE.md`**, using the canonical `service-key` — never the git repo name, never a folder name guessed by similarity.
 3. **Never discover the target service by grep, glob or name similarity.**
 4. Undeclared service, key not in the registry, or one task spanning repos without saying so → **STOP and ask.**
 
@@ -151,8 +151,8 @@ Unavoidable small assumptions go into §15, one line each, for the reviewer to c
 
 For each AC:
 
-1. Identify the affected services from the `AGENTS.md` registry.
-2. Trace the file chain in each service following its read order in `AGENTS.md` (and `conventions/<service>.md`). Name concrete files, classes and methods — not layers in the abstract.
+1. Identify the affected services from the `CLAUDE.md` registry.
+2. Trace the file chain in each service following its read order in `CLAUDE.md` (and `conventions/<service>.md`). Name concrete files, classes and methods — not layers in the abstract.
 3. **Data:** compare against the current state in `docs/database/` **before** proposing any change. Never propose a migration that contradicts the documented state. A disagreement between the document and the real schema goes to §16.
 4. **UI:** page/component, API module, state/query layer, routing, styles, per `DESIGN.md`.
 5. **Contracts:** for every integration surface in `ARCHITECTURE.md` the feature touches, state whether the change is backward compatible and name the clients at risk if not.
@@ -168,7 +168,7 @@ For each AC:
 feature: <TICKET-ID>
 title: <feature name>
 status: draft            # draft → plan-review → approved
-service: <canonical service-key from the AGENTS.md registry>
+service: <canonical service-key from the CLAUDE.md registry>
 service-repo: <repo path matching the registry>
 services-affected: [<key>, <key>]
 owner: <DEV name / AI>
@@ -192,7 +192,7 @@ baseline:                # the snapshot this plan was written against
 ## 2. Documents read
 | Document | Read | Taken from it / why skipped |
 |---|---|---|
-| `AGENTS.md` | ✅ | registry, read order, verify command, branch rule |
+| `CLAUDE.md` | ✅ | registry, read order, verify command, branch rule |
 | `docs/ARCHITECTURE.md` | ✅ | integration surfaces, blast radius |
 | `docs/specs/<domain>.md` | ✅ | current behavior of the domain |
 | `docs/DESIGN.md` | ✅ / N/A | <reason if N/A> |
@@ -242,7 +242,7 @@ baseline:                # the snapshot this plan was written against
 <Which existing clients could break, and the mitigation: versioning, dual-write, feature flag, staged rollout. "None" if not applicable.>
 
 ## 12. Verification plan
-<Per affected service: the exact verification command from AGENTS.md and what result proves the AC. "Run tests" is not acceptable. Include the regression flows to re-run, and how anything untestable locally will be verified instead.>
+<Per affected service: the exact verification command from CLAUDE.md and what result proves the AC. "Run tests" is not acceptable. Include the regression flows to re-run, and how anything untestable locally will be verified instead.>
 
 ## 13. Risks and rollback
 | Risk | Severity | Mitigation / rollback |
@@ -271,7 +271,7 @@ Sections evaluating to "None" keep the word `None` — never deleted, so the rev
 
 ### Step 6 — Write `tasks.md`
 
-Use the layout `AGENTS.md` declares; the default is below. Apply §4.1 for `(*)`, §4.2 for the documentation group, §4.3 for sizing and execution.
+Use the layout `CLAUDE.md` declares; the default is below. Apply §4.1 for `(*)`, §4.2 for the documentation group, §4.3 for sizing and execution.
 
 ````markdown
 ---
@@ -288,7 +288,7 @@ execution:
 # Tasks — <TICKET-ID>
 
 ## <service-tag-1>
-- [ ] T-1 [<service-key>] <specific task> (M) — DoD: <objectively checkable result> — Verify: `<command from AGENTS.md>` — Depends on: —
+- [ ] T-1 [<service-key>] <specific task> (M) — DoD: <objectively checkable result> — Verify: `<command from CLAUDE.md>` — Depends on: —
 - [ ] T-2 [<service-key>] <specific task> (S) — DoD: ... — Verify: ... — Depends on: —
 
 ## database / configuration            <!-- only if plan §8–§10 is not "None" -->
@@ -309,7 +309,7 @@ execution:
 - [ ] T-11 Submit the documentation diff for Gate 2 approval
 ````
 
-**Task rules:** every task has an ID, a service tag from the registry (or `[docs]` / `[operator]`), a size, a DoD, dependencies, and — for code tasks — a concrete verification command. Status markers `[ ]` · `[/]` · `[x]` (with date) · `[blocked]` (with reason), unless `AGENTS.md` declares another vocabulary. Every task traces back to an AC in `expect.md`, to §17, or to §8–§10; a task tracing to nothing is out of scope and goes to §16 instead.
+**Task rules:** every task has an ID, a service tag from the registry (or `[docs]` / `[operator]`), a size, a DoD, dependencies, and — for code tasks — a concrete verification command. Status markers `[ ]` · `[/]` · `[x]` (with date) · `[blocked]` (with reason), unless `CLAUDE.md` declares another vocabulary. Every task traces back to an AC in `expect.md`, to §17, or to §8–§10; a task tracing to nothing is out of scope and goes to §16 instead.
 
 ### Step 7 — Gate 1: Plan Approval
 

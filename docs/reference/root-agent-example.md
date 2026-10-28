@@ -1,7 +1,7 @@
-# AGENTS.md — eCon Project
+# CLAUDE.md — eCon Project
 
 > Root project agent guide. Source of truth for workspace, architecture, and operating rules.
-> Keep one root `AGENTS.md`; no per-service agent guides. Synchronize `docs/reference/root-agent-example.md` in the same change.
+> Keep one root `CLAUDE.md`; no per-service agent guides. Synchronize `docs/reference/root-agent-example.md` in the same change.
 
 ---
 
@@ -42,7 +42,7 @@ language_for_ai_replies: Vietnamese
 Read in this exact order **before** planning, coding, testing, or reviewing:
 
 1. Run `git pull` inside `docs/`.
-2. This file (`AGENTS.md`).
+2. This file (`CLAUDE.md`).
 3. `docs/README.md` — the spec-driven workflow.
 4. `docs/ARCHITECTURE.md` — services, ports, deployment, inter-service communication.
 5. `docs/specs/<domain>.md` — the business domain(s) touched by the task.
@@ -61,7 +61,7 @@ Each row is an independently cloned git repository sitting beside `docs/`. The p
 
 ```text
 econProject/                      ← parent folder, NOT a git repo
-├── AGENTS.md                     ← this file
+├── CLAUDE.md                     ← this file
 ├── docs/                         ← docs repo; source of truth
 │   ├── README.md                 ← spec-driven workflow
 │   ├── ARCHITECTURE.md           ← overall architecture
@@ -249,7 +249,7 @@ The AI must report: current status, remaining tasks, blockers, and any repo/bran
 | `docs/rules/TBD — owner: TechLead.md` | TBD — owner: TechLead | TBD — owner: TechLead | TBD — owner: TechLead |
 
 How to invoke: open the AI session at the **parent folder**, then ask e.g.
-*"Read `AGENTS.md` and `docs/rules/01-create-plan.md`, execute for `docs/features/FCAC-0090`."*
+*"Read `CLAUDE.md` and `docs/rules/01-create-plan.md`, execute for `docs/features/FCAC-0090`."*
 
 ---
 
@@ -321,7 +321,7 @@ All outbound calls from `econApi` must go through `TBD — owner: TechLead`. Do 
 Every new UI page wraps its main content in `TBD — owner: TechLead`. Deviate only when `docs/DESIGN.md` or the existing component of that flow requires a special layout. Prefer existing TBD — owner: TechLead and existing custom classes over writing new styles.
 
 ### Self-sync rule
-Whenever this root `AGENTS.md` is updated, update `docs/reference/root-agent-example.md` in the **same change**. After `git pull`, if `docs/reference/root-agent-example.md` changed upstream, compare it with this file and propose merging the relevant rules; ask the user before writing when there is a conflict or a workflow-affecting change.
+Whenever this root `CLAUDE.md` is updated, update `docs/reference/root-agent-example.md` in the **same change**. After `git pull`, if `docs/reference/root-agent-example.md` changed upstream, compare it with this file and propose merging the relevant rules; ask the user before writing when there is a conflict or a workflow-affecting change.
 
 ---
 
@@ -453,12 +453,12 @@ Answer these with the team before filling the placeholders:
 
 - [ ] Parent folder created; all service repos cloned side by side.
 - [ ] Docs repo cloned as `docs/`.
-- [ ] This template copied to `econProject/AGENTS.md`; all `TBD — owner: TechLead` values replaced.
+- [ ] This template copied to `econProject/CLAUDE.md`; all `TBD — owner: TechLead` values replaced.
 - [ ] All `<!-- HOWTO -->` comments and non-applicable sections removed.
 - [ ] Service registry (§4) verified against the actual disk layout — folder names, not repo names.
 - [ ] Verification command in §10 actually run once per service and confirmed to work.
 - [ ] `docs/rules/00-init-docs.md` executed to generate `ARCHITECTURE.md`, `DESIGN.md`, `specs/` — **output reviewed by TechLead**.
-- [ ] `docs/reference/root-agent-example.md` created as a copy of the finished `AGENTS.md`.
+- [ ] `docs/reference/root-agent-example.md` created as a copy of the finished `CLAUDE.md`.
 - [ ] One pilot ticket run end-to-end through the full lifecycle before rolling out to the team.
 - [ ] Docs repo committed and pushed.
 

@@ -9,11 +9,11 @@
 
 ## 1. Where project-specific facts come from
 
-This rule holds **no project facts**. If the project names a document differently, resolve the real name through the **source-of-truth map in `AGENTS.md`**.
+This rule holds **no project facts**. If the project names a document differently, resolve the real name through the **source-of-truth map in `CLAUDE.md`**.
 
 | Document | What this rule takes from it | If missing |
 |---|---|---|
-| `<project-root>/AGENTS.md` | Service registry (service-key → repo path), per-service read order, **verification commands**, code conventions, i18n requirement, branch/commit/push rules, do-not-touch list, source-of-truth map | **STOP** |
+| `<project-root>/CLAUDE.md` | Service registry (service-key → repo path), per-service read order, **verification commands**, code conventions, i18n requirement, branch/commit/push rules, do-not-touch list, source-of-truth map | **STOP** |
 | `docs/features/<TICKET-ID>/plan.md` | Approved design, **baseline SHAs**, documentation impact (§17), deployment consequences (§8–§10), who applies each change | **STOP** |
 | `docs/features/<TICKET-ID>/tasks.md` | Authorized scope, DoDs, `(*)` and `[operator]` markers, execution modes, documentation tasks | **STOP** |
 | `docs/features/<TICKET-ID>/expect.md` | The requirement of record | **STOP** |
@@ -53,8 +53,8 @@ STOP and ask if any of these is true:
 
 1. `plan.md` is not approved by the mechanism the project declares. **The agent never sets `approved` itself.**
 2. `tasks.md` is missing, or a requested task is not in it, or the authorization in §2 is unclear.
-3. The target service cannot be resolved from the plan front matter through the `AGENTS.md` registry.
-4. A repo's working tree is dirty, or sits on a branch other than the one the `AGENTS.md` branch rule requires.
+3. The target service cannot be resolved from the plan front matter through the `CLAUDE.md` registry.
+4. A repo's working tree is dirty, or sits on a branch other than the one the `CLAUDE.md` branch rule requires.
 5. **The repo has moved past the `plan.md` baseline** in files the plan depends on (Step 2).
 6. The task requires a contract, schema, permission or dependency change the approved plan does not cover.
 7. Impact analysis returns HIGH/CRITICAL risk the plan did not anticipate.
@@ -122,12 +122,12 @@ execution:
 - **No plan file affected** → note the drift in `report.md` and continue.
 - **A plan file affected** → **STOP**. The plan was designed against a different snapshot; report the drift and ask whether to re-validate the affected plan sections before coding.
 
-Dirty tree, or a branch other than the one the `AGENTS.md` branch rule requires → **stop and ask**. Never create, switch, merge or push a branch unless explicitly asked.
+Dirty tree, or a branch other than the one the `CLAUDE.md` branch rule requires → **stop and ask**. Never create, switch, merge or push a branch unless explicitly asked.
 
 ### Step 3 — Lock the target service
 
 1. Read `service:` and `service-repo:` from `plan.md`, plus the `Service` column of the task.
-2. Map the canonical `service-key` to its repo path through the **registry in `AGENTS.md`**.
+2. Map the canonical `service-key` to its repo path through the **registry in `CLAUDE.md`**.
 3. **Never** locate the service by grep, glob or folder-name similarity — service and folder names collide across repos and a search will match the wrong one.
 4. Edit files **only** inside the locked repo path. A multi-service task is executed **one repo at a time**.
 5. Missing `service:`, key not in the registry, or a task spanning repos without saying so → **STOP and ask.**
@@ -135,7 +135,7 @@ Dirty tree, or a branch other than the one the `AGENTS.md` branch rule requires 
 ### Step 4 — Read context, then analyse impact
 
 1. `expect.md`, `plan.md`, the authorized task rows in `tasks.md`, `testcase.md` if present.
-2. `AGENTS.md`: the locked service's read order, verification command and constraints; code conventions; do-not-touch list.
+2. `CLAUDE.md`: the locked service's read order, verification command and constraints; code conventions; do-not-touch list.
 3. `ARCHITECTURE.md`, and the `specs/<domain>.md` named by the plan — **read the spec before changing the behavior it describes**, so Step 7 is a diff and not a rewrite.
 4. `DESIGN.md` for UI tasks · `docs/database/` plus the DB migration rule for data tasks · the plan's i18n notes and existing locale files when the project is multi-language · `conventions/<service>.md` if present.
 5. The real source files named in the plan, following the service read order.
@@ -148,9 +148,9 @@ For each authorized task:
 
 1. Set it to in-progress in `tasks.md` **before** editing code.
 2. Change files in the order the plan and the service read order prescribe.
-3. Follow the code conventions in `AGENTS.md` / `conventions/<service>.md` — match the surrounding code, do not introduce a new pattern.
+3. Follow the code conventions in `CLAUDE.md` / `conventions/<service>.md` — match the surrounding code, do not introduce a new pattern.
 4. Keep to the scope discipline in §6. Anything the approved plan does not cover — a contract change, schema change, permission change, new dependency — is a **stop**, not a judgement call (Step 6).
-5. Run the task's verification command from `AGENTS.md` (Step 8).
+5. Run the task's verification command from `CLAUDE.md` (Step 8).
 6. Close the task only through Step 10.
 
 Special handling:
@@ -192,13 +192,13 @@ Never silently "fix" the plan by writing different code from what was approved.
 
 **Gate:** a code task **cannot be closed** until the documents it invalidates are updated, or their update task is explicitly open with a stated dependency on it. A feature cannot be closed with any documentation task open.
 
-The change → document mapping is defined in Rule 01 §4.2; resolve real filenames through the `AGENTS.md` source-of-truth map.
+The change → document mapping is defined in Rule 01 §4.2; resolve real filenames through the `CLAUDE.md` source-of-truth map.
 
 Rules: update by **diff, not rewrite** — change the sections the feature invalidated and leave the rest alone · the agent **proposes**, the TechLead approves at **Gate 2 — Documentation Approval** · a §17 document that turns out not to need changing is recorded `N/A` **with a verifiable reason** in `report.md` §7, never deleted · a document needing change that §17 did not list is added to §17 with a task.
 
 ### Step 8 — Verify with real output
 
-1. Run the exact verification commands from `AGENTS.md` for every service touched.
+1. Run the exact verification commands from `CLAUDE.md` for every service touched.
 2. Run the wider checks `plan.md` §12 requires (build, test suite, lint, regression flows).
 3. If the project's impact tool supports change detection, run it to confirm nothing outside scope moved.
 4. Review `git diff` file by file. Anything outside the authorized scope is reverted or explained.
@@ -240,7 +240,7 @@ execution:
 ## 3. Verification results
 <!-- Paste the REAL output of each command. No narration. -->
 ```
-$ <verification command from AGENTS.md>
+$ <verification command from CLAUDE.md>
 <real output>
 ```
 | Check | Result | Note |
@@ -372,7 +372,7 @@ service_commit: <short SHA>
 - <exact steps to undo, per change, in reverse order>
 ````
 
-> `deploy.md` describes **this feature's** rollout. Environment-level operating detail belongs in the service-local deployment document named in `AGENTS.md`.
+> `deploy.md` describes **this feature's** rollout. Environment-level operating detail belongs in the service-local deployment document named in `CLAUDE.md`.
 
 ### Step 10 — Close out
 
@@ -400,7 +400,7 @@ service_commit: <short SHA>
 - [ ] `plan.md` marked complete, or the remaining scope stated explicitly.
 - [ ] `git diff` contains nothing outside the authorized scope.
 
-Commit, push, merge and deploy follow the git rules in `AGENTS.md`. **The agent never commits, pushes, merges or deploys unless explicitly asked**, and stops to ask if the diff contains files outside scope or anything resembling a secret or runtime config.
+Commit, push, merge and deploy follow the git rules in `CLAUDE.md`. **The agent never commits, pushes, merges or deploys unless explicitly asked**, and stops to ask if the diff contains files outside scope or anything resembling a secret or runtime config.
 
 If work stops unfinished, the agent reports: current status, remaining tasks, blockers, every repo/branch/file left dirty, **and every environment change already applied**, so nothing is left in an unknown state.
 
@@ -414,8 +414,8 @@ If work stops unfinished, the agent reports: current status, remaining tasks, bl
 4. **No unapproved contract changes** — API shape, message payload, RPC contract, schema, permissions, config.
 5. **No new dependencies** the approved plan does not list.
 6. **No repo mutation on your own initiative** — no pull, checkout, branch, merge, push.
-7. **Match the existing code style** per `AGENTS.md` / `conventions/<service>.md`.
-8. **Never touch** the do-not-touch paths in `AGENTS.md`.
+7. **Match the existing code style** per `CLAUDE.md` / `conventions/<service>.md`.
+8. **Never touch** the do-not-touch paths in `CLAUDE.md`.
 9. **Problems found outside the task are reported, not fixed.**
 10. **Ask when blocked.** Never guess business rules, data shapes or permissions mid-implementation.
 

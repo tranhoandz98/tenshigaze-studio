@@ -15,9 +15,9 @@ git pull
 
 ### Bước 2: Đọc tổng quan project
 
-1. Đọc `../AGENTS.md` root project.
+1. Đọc `../CLAUDE.md` root project.
 2. Đọc `README.md` docs nếu có.
-3. Đọc service quick rules trong `../AGENTS.md`.
+3. Đọc service quick rules trong `../CLAUDE.md`.
 4. Đọc package/config chính để xác nhận stack, không suy đoán.
 
 ### Bước 3: Khảo sát codebase
@@ -70,7 +70,7 @@ Xác định domain từ codebase và AGENTS domain map. Với mỗi domain:
 - [ ] Claim quan trọng có link code/config/docs gốc.
 - [ ] Không copy-paste code dài vào docs; chỉ mô tả và dẫn nguồn.
 - [ ] Tên file đúng casing: `ARCHITECTURE.md`, `DESIGN.md`.
-- [ ] Docs mới không mâu thuẫn `AGENTS.md`.
+- [ ] Docs mới không mâu thuẫn `CLAUDE.md`.
 
 ### Bước 9: Review
 
